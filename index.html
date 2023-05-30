@@ -12,12 +12,12 @@
         alt="toy-header"
       />
     </div>
-
     <div class="container">
-      <form class="add-toy-form">
+      <form id="toy-form" class="add-toy-form">
         <h3>Create a toy!</h3>
 
         <input
+          id="toy-name"
           type="text"
           name="name"
           value=""
@@ -26,6 +26,7 @@
         />
         <br />
         <input
+          id="toy-image"
           type="text"
           name="image"
           value=""
@@ -47,5 +48,46 @@
 
     <div id="toy-collection"></div>
     <script type="text/javascript" src="src/index.js"></script>
+    <script>
+      const toyCollection = document.querySelector('#toy-collection');
+
+      fetch('db.json')
+        .then(response => response.json())
+        .then(data => {
+          const toys = data.toys;
+
+          toys.forEach(toy => {
+            const card = document.createElement('div');
+            card.classList.add('card');
+
+            const name = document.createElement('div');
+            name.textContent = toy.name;
+            name.classList.add('card-name');
+
+            const image = document.createElement('img');
+            image.src = toy.image;
+            image.classList.add('card-image');
+
+            const likes = document.createElement('div');
+            likes.textContent = `${toy.likes} Likes`;
+            likes.classList.add('card-likes');
+
+            const button = document.createElement('button');
+            button.classList.add('like-btn');
+            button.dataset.id = toy.id;
+            button.textContent = 'Like ❤️';
+
+            card.appendChild(name);
+            card.appendChild(image);
+            card.appendChild(likes);
+            card.appendChild(button);
+
+            toyCollection.appendChild(card);
+          });
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+    </script>
   </body>
 </html>

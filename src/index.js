@@ -14,10 +14,10 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-fetch ('http://localhost:3000/toys'), {
-  method : 'POST',
-  headers: {
-    'Content-Type': 'application/json'
-  },
-  body:JSON.stringify(toys)  
-}
+fetch ('http://localhost:3000/toys')
+  .then(function(doStuff){
+    return doStuff.json()
+  })
+  .then(function(secondStep){
+    console.log(secondStep)
+  })
